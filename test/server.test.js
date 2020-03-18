@@ -1,10 +1,13 @@
 const assert = require("assert");
 const request = require("supertest");
 const server = require("../src/server");
-const {
-  promises: { readFile }
-} = require("fs");
+const util = require("util");
+
+// node 12
+const { readFile } = require("fs");
 const path = require("path");
+
+const readFileAsync = util.promisify(readFile);
 
 describe("server", () => {
   // 3.1
@@ -13,7 +16,7 @@ describe("server", () => {
       .get("/")
       .expect("Content-type", /html/)
       .expect(200)
-      .then(response => {
+      .then((response) => {
         assert.ok(response.text.match(/<!DOCTYPE html>/));
       });
   });
@@ -23,7 +26,7 @@ describe("server", () => {
       .get("/style.css")
       .expect("Content-type", /css/)
       .expect(200)
-      .then(response => {
+      .then((response) => {
         assert.ok(response.text.match(/body {/));
       });
   });
@@ -33,7 +36,7 @@ describe("server", () => {
       .get("/json")
       .expect("Content-type", /application\/json/)
       .expect(200)
-      .then(response => {
+      .then((response) => {
         assert.ok(response.body, "Body does not contain json");
         assert.equal(
           response.body.message,
@@ -45,7 +48,7 @@ describe("server", () => {
   // 6.5
   it("should load the dotenv config", async () => {
     const serverFilePath = path.join(process.cwd(), "src", "server.js");
-    const serverFile = await readFile(serverFilePath, "utf8");
+    const serverFile = await readFileAsync(serverFilePath, "utf8");
     const lines = serverFile.split("/n");
     const firstLines = lines.slice(0, 5);
     let match = false;
@@ -54,6 +57,7 @@ describe("server", () => {
         match = true;
       }
     }
+    console.log(match);
     assert.ok(match, "should load dotenv config at the top of the file");
   });
   after(() => {
