@@ -16,7 +16,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "mocha": "^7.0.1",
