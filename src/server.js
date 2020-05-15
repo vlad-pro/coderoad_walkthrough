@@ -16,6 +16,7 @@ function fileHandler(req, res) {
   res.sendFile(path.join(__dirname, "/views/index.html"));
 }
 
+app.use(express.static(__dirname + "/public"));
 // -- DO NOT EDIT BELOW THIS LINE
 
 module.exports = server;
