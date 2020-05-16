@@ -1,6 +1,7 @@
 # NPM
 node_modules
 package-lock.json
+.env
 
 # Tutorial
 CODEROAD.md
